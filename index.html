@@ -1,0 +1,92 @@
+<!DOCTYPE html><!--HTML5 doctype-->
+<html>
+<head>
+	<title>Tummy Tapper</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="jqm.css" />
+	<style type="text/css">
+    /* Prevent copy paste for all elements except text fields */
+    *  { -webkit-user-select:none; -webkit-tap-highlight-color:rgba(255, 255, 255, 0); }
+    input, textarea  { -webkit-user-select:text; }
+    </style>
+    <script type="text/javascript" charset="utf-8" src="http://localhost:58888/_appMobi/appmobi.js"></script> 
+	<script type="text/javascript" charset="utf-8" src="http://localhost:58888/_appMobi/xhr.js"></script>
+	<script type="text/javascript">
+	/* This function runs once the page is loaded, but appMobi is not yet active */
+	var init = function(){
+
+	};
+	window.addEventListener("load",init,false);  
+
+	/* This code prevents users from dragging the page */
+	var preventDefaultScroll = function(event) {
+	    event.preventDefault();
+	    window.scroll(0,0);
+	    return false;
+	};
+	document.addEventListener('touchmove', preventDefaultScroll, false);
+
+	/* This code is used to run as soon as appMobi activates */
+	var onDeviceReady=function(){
+	    //Size the display to 768px by 1024px
+	    AppMobi.display.useViewport(768,1024);
+		
+		//hide splash screen
+		AppMobi.device.hideSplashScreen();	
+	};
+	document.addEventListener("appMobi.device.ready",onDeviceReady,false);    
+	</script>
+</head>
+<body>
+<div data-role="page">
+	<div data-role="header">
+		<h1>Tummy Tapper!</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+		<ul data-role="listview" data-inset="true" data-theme="d">
+			<li>Help Tum Tum go around the world on Facebook - pet Tum Tum's tummy!<br /><br />He will ride on to your wall to get your friends to rub his tummy too!</li>
+		</ul>
+		<img src="tumtum.png" id="tumtum" width="90%">
+	</div><!-- /content -->
+
+	<!--div data-role="footer">
+		<h4>Page Footer</h4>
+	</div>--<!-- /footer -->
+</div><!-- /page -->
+<div id='fb-root'></div>
+<script src="jq.js"></script>
+<script src="jqm.js"></script>
+<script src='http://connect.facebook.net/en_US/all.js'></script>
+<script> 
+      FB.init({appId: "300497353326009", status: true, cookie: true});
+
+      function postToFeed() {
+
+        // calling the API ...
+        var obj = {
+          method: 'feed',
+          link: 'http://parasjain.com/tummytapper',
+          picture: 'http://www.parasjain.com/tummytapper/tumtum.gif',
+          name: 'Tummy Tapper - Pet Tum Tum\'s Tummy!',
+          caption: 'Pet Tum Tum\'s Tummy!',
+          description: 'Help Tum Tum go all over the world! Pet Tum Tum\'s tummy to help him get his tummy rubbed across the world'
+        };
+
+        function callback(response) {
+          document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+        }
+
+        FB.ui(obj, callback);
+      }
+    
+    </script>
+<script>
+	$("#tumtum").click(function () { 
+  		postToFeed();
+  		$(this).hide('fast');
+  		return false;
+	});
+</script>
+</body>
+</html>
