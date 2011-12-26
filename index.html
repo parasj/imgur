@@ -25,10 +25,10 @@
 	function create_page(page_id) {
 
 	    //set whatever content you want to put into the new page
-	    var string = 'FOO BAR page...<br><br><a href="#page_0">return to home screen</a>';
+	    var string = '<img src="http://i.imgur.com/DIsUE.png" style="max-height:95%;max-width:95%;">';
 
 	    //append the new page onto the end of the body
-	    $('#page_body').append('<div data-role="page" id="' + page_id + '"><div data-role="content">' + string + '</div></div>');
+	    $('#page_body').append('<div data-role="page" id="' + page_id + '" data-add-back-btn="true">	<div data-role="header"><h1>imgur Viewer</h1></div><div data-role="content">' + string + '</div></div>');
 
 	    //initialize the new page 
 	    $.mobile.initializePage();
@@ -42,6 +42,8 @@
 	    //refresh the home screen so new link is given proper css
 	    $('#page_0 div[data-role="content"]').page();
 	}
+
+
 	</script>
 	<style type="text/css">
     /* Prevent copy paste for all elements except text fields */
@@ -84,13 +86,12 @@
 
 	<div data-role="content">
 		<ul data-role="listview">
-			<li><a href="#">
+			<li><a onclick="javascript: create_page('foo_bar_page');">
 				<img src="http://i.imgur.com/DIsUEb.jpg" />
 				<h3>Ghost in the cemetery</h3>
 			</a></li>
 		</ul>
 		<br />
-		<a href="javascript: create_page('foo_bar_page');">create new page</a>
 	</div><!-- /content -->
 
 	<!--div data-role="footer">
