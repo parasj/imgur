@@ -4,6 +4,45 @@
 	<title>imgur viewer</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<link rel="stylesheet" href="jqm/jqm.css" />
+	<script src="jqm/jq.js"></script>
+	<script src="jqm/jqm.js"></script>
+	<script>
+	$(document).ready(function() {
+
+	    //check if hash exists and that it is not for the home screen
+	    if (window.location.hash != '' && window.location.hash != '#page_0') {
+
+	        //set whatever content you want to put into the new page
+	        var content_string = 'Some ' + window.location.hash + ' text...<br><br><a href="#page_0">go to home screen</a>';
+
+	        //append the new page onto the end of the body
+	        $('#page_body').append('<div data-role="page" id="' + window.location.hash.replace('#','') + '"><div data-role="content">' + content_string + '</div></div>');
+
+	        //add a link on the home screen to navaigate to the new page (just so nav isn't broken if user goes from new page to home screen)
+	        $('#page_0 div[data-role="content"]').append('<br><br><a href="#' + window.location.hash.replace('#','') + '">go to ' + window.location.hash.replace('#','') + ' page</a>');
+	    }
+	});
+	function create_page(page_id) {
+
+	    //set whatever content you want to put into the new page
+	    var string = 'FOO BAR page...<br><br><a href="#page_0">return to home screen</a>';
+
+	    //append the new page onto the end of the body
+	    $('#page_body').append('<div data-role="page" id="' + page_id + '"><div data-role="content">' + string + '</div></div>');
+
+	    //initialize the new page 
+	    $.mobile.initializePage();
+
+	    //navigate to the new page
+	    $.mobile.changePage("#" + page_id, "pop", false, true);
+
+	    //add a link on the home screen to navaigate to the new page (just so nav isn't broken if user goes from new page to home screen)
+	    $('#page_0 div[data-role="content"]').append('<br><br><a href="#' + page_id + '">go to ' + page_id + ' page</a>');
+
+	    //refresh the home screen so new link is given proper css
+	    $('#page_0 div[data-role="content"]').page();
+	}
+	</script>
 	<style type="text/css">
     /* Prevent copy paste for all elements except text fields */
     *  { -webkit-user-select:none; -webkit-tap-highlight-color:rgba(255, 255, 255, 0); }
@@ -37,17 +76,21 @@
 	document.addEventListener("appMobi.device.ready",onDeviceReady,false);    
 	</script-->
 </head>
-<body>
-<div data-role="page">
+<body id="page_body">
+<div data-role="page" id="viewer">
 	<div data-role="header">
-		<h1>Tummy Tapper!</h1>
+		<h1>imgur Viewer</h1>
 	</div><!-- /header -->
 
 	<div data-role="content">
-		<ul data-role="listview" data-inset="true" data-theme="d">
-			<li>Toup!</li>
+		<ul data-role="listview">
+			<li><a href="#">
+				<img src="http://i.imgur.com/DIsUEb.jpg" />
+				<h3>Ghost in the cemetery</h3>
+			</a></li>
 		</ul>
-		<button id="tumtum">Pet Me!</button>
+		<br />
+		<a href="javascript: create_page('foo_bar_page');">create new page</a>
 	</div><!-- /content -->
 
 	<!--div data-role="footer">
@@ -55,8 +98,6 @@
 	</div>--<!-- /footer -->
 </div><!-- /page -->
 <!--div id='fb-root'></div-->
-<script src="jqm/jq.js"></script>
-<script src="jqm/jqm.js"></script>
 <!--script src='http://connect.facebook.net/en_US/all.js'></script>
 <script> 
       FB.init({appId: "300497353326009", status: true, cookie: true});
