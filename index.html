@@ -3,16 +3,21 @@
 <head>
 	<title>imgur viewer</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
-	<link rel="stylesheet" href="jqm/jqm.css" />
 	<script src="jqm/jq.js"></script>
-	<script src="jqm/jqm.js"></script>
 	<script>
-	$(document).ready(function() {
-		$.globalVarContainer = {imgur_json_stream : ''};
+	$.globalVarContainer = { imgur_json_stream: "" };
 
-		$.getJSON("http://serve.parasjain.com/imgur/getcache.php?jsoncallback=?", function(data){
-				$.globalVarContainer.imgur_json_stream = data;
-		});
+	$.getJSON("http://serve.parasjain.com/imgur/getcache.php?jsoncallback=?", function(data){
+			$.globalVarContainer.imgur_json_stream = data;
+			for (var key in data) {
+	    		//alert(0);
+	    		//alert(key + ': ' + data[key]['thumbnail']);
+	    		$('#ulcontain').append('<li><a href="#" onclick="javascript: create_page(\'' + key + '\');"><img height="115px" src="' + data[key]['thumbnail'] +'" /><h3>' + data[key]['title'] +'</h3></a></li>');
+	    		$('#ulcontain').listview('refresh');
+			}
+	});
+
+	$(document).ready(function() {
 	    //check if hash exists and that it is not for the home screen
 	    if (window.location.hash != '' && window.location.hash != '#page_0') {
 
@@ -25,15 +30,21 @@
 	        //add a link on the home screen to navaigate to the new page (just so nav isn't broken if user goes from new page to home screen)
 	        $('#page_0 div[data-role="content"]').append('<br><br><a href="#' + window.location.hash.replace('#','') + '">go to ' + window.location.hash.replace('#','') + ' page</a>');
 	    }
-	});
 
+	    // Build list
+
+	});
+	</script>
+	<link rel="stylesheet" href="jqm/jqm.css" />
+	<script src="jqm/jqm.js"></script>
+	<script>
 	function create_page(page_id) {
 
 	    //set whatever content you want to put into the new page
-	    var string = '<img src="' + $.globalVarContainer.imgur_json_stream[page_id]['orig_image'] +'" style="max-height:95%;max-width:95%;">';
+	    var string = '<center><h1>' + $.globalVarContainer.imgur_json_stream[page_id]['title'] + '</h1><img src="' + $.globalVarContainer.imgur_json_stream[page_id]['orig_image'] +'" style="width:95%;margin-left: auto; margin-right: auto;"></center>';
 
 	    //append the new page onto the end of the body
-	    $('#page_body').append('<div data-role="page" id="' + page_id + '" data-add-back-btn="true">	<div data-role="header"><h1>imgur Viewer</h1></div><div data-role="content">' + string + '</div></div>');
+	    $('#page_body').append('<div data-role="page" id="' + page_id + '" data-add-back-btn="true"><div data-role="header"><h1>imgur Viewer</h1></div><div data-role="content">' + string + '</div></div>');
 
 	    //initialize the new page 
 	    $.mobile.initializePage();
@@ -89,11 +100,7 @@
 	</div><!-- /header -->
 
 	<div data-role="content">
-		<ul data-role="listview">
-			<li><a onclick="javascript: create_page('1');">
-				<img src="http://i.imgur.com/DIsUEb.jpg" />
-				<h3>Ghost in the cemetery</h3>
-			</a></li>
+		<ul data-role="listview" id="ulcontain">
 		</ul>
 		<br />
 	</div><!-- /content -->
