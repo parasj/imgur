@@ -31,7 +31,7 @@ foreach ($links as $i => $html_element) {
 	// 12/25/11 - orig image is *b.jpg, orig image is *.png
 
 	$image_array = explode("b.jpg", $imgur[$i]['thumbnail']);
-	$imgur[$i]['orig_image'] = $image_array[0].".png";
+	$imgur[$i]['orig_image'] = $image_array[0].".gif";
 
 /*	$ch = curl_init($imgur[$i]['link']);
 

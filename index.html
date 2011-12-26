@@ -8,7 +8,11 @@
 	<script src="jqm/jqm.js"></script>
 	<script>
 	$(document).ready(function() {
+		$.globalVarContainer = {imgur_json_stream : ''};
 
+		$.getJSON("http://serve.parasjain.com/imgur/getcache.php?jsoncallback=?", function(data){
+				$.globalVarContainer.imgur_json_stream = data;
+		});
 	    //check if hash exists and that it is not for the home screen
 	    if (window.location.hash != '' && window.location.hash != '#page_0') {
 
@@ -22,10 +26,11 @@
 	        $('#page_0 div[data-role="content"]').append('<br><br><a href="#' + window.location.hash.replace('#','') + '">go to ' + window.location.hash.replace('#','') + ' page</a>');
 	    }
 	});
+
 	function create_page(page_id) {
 
 	    //set whatever content you want to put into the new page
-	    var string = '<img src="http://i.imgur.com/DIsUE.png" style="max-height:95%;max-width:95%;">';
+	    var string = '<img src="' + $.globalVarContainer.imgur_json_stream[page_id]['orig_image'] +'" style="max-height:95%;max-width:95%;">';
 
 	    //append the new page onto the end of the body
 	    $('#page_body').append('<div data-role="page" id="' + page_id + '" data-add-back-btn="true">	<div data-role="header"><h1>imgur Viewer</h1></div><div data-role="content">' + string + '</div></div>');
@@ -42,7 +47,6 @@
 	    //refresh the home screen so new link is given proper css
 	    $('#page_0 div[data-role="content"]').page();
 	}
-
 
 	</script>
 	<style type="text/css">
@@ -86,7 +90,7 @@
 
 	<div data-role="content">
 		<ul data-role="listview">
-			<li><a onclick="javascript: create_page('foo_bar_page');">
+			<li><a onclick="javascript: create_page('1');">
 				<img src="http://i.imgur.com/DIsUEb.jpg" />
 				<h3>Ghost in the cemetery</h3>
 			</a></li>
