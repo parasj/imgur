@@ -2,9 +2,13 @@
 <html>
 <head>
 	<title>imgur viewer</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 	<script src="jqm/jq.js"></script>
 	<script>
+
 	$.globalVarContainer = { imgur_json_stream: "" };
 
 	$.getJSON("http://serve.parasjain.com/imgur/getcache.php?jsoncallback=?", function(data){
@@ -12,8 +16,10 @@
 			for (var key in data) {
 	    		//alert(0);
 	    		//alert(key + ': ' + data[key]['thumbnail']);
-	    		$('#ulcontain').append('<li><a href="#" onclick="javascript: create_page(\'' + key + '\');"><img height="115px" src="' + data[key]['thumbnail'] +'" /><h3>' + data[key]['title'] +'</h3></a></li>');
+	    		$('#ulcontain').append('<li id="' + key + '"><a href="#" onclick="javascript: create_page(\'' + key + '\');"><img height="115px" src="' + data[key]['thumbnail'] +'" /><h3>' + data[key]['title'] +'</h3></a></li>');
+	    		//$("#" + key + "").hide();
 	    		$('#ulcontain').listview('refresh');
+	    		//$("#" + key + "").show();
 			}
 	});
 
@@ -38,13 +44,16 @@
 	<link rel="stylesheet" href="jqm/jqm.css" />
 	<script src="jqm/jqm.js"></script>
 	<script>
+	/* $(document).bind("mobileinit", function(){
+	  $.mobile.touchOverflowEnabled = true;
+	}); */
 	function create_page(page_id) {
 
 	    //set whatever content you want to put into the new page
-	    var string = '<center><h1>' + $.globalVarContainer.imgur_json_stream[page_id]['title'] + '</h1><img src="' + $.globalVarContainer.imgur_json_stream[page_id]['orig_image'] +'" style="width:95%;margin-left: auto; margin-right: auto;"></center>';
+	    var string = '<div data-iscroll="scroller"><center><h2>' + $.globalVarContainer.imgur_json_stream[page_id]['title'] + '</h2><img src="' + $.globalVarContainer.imgur_json_stream[page_id]['orig_image'] +'" style="width:95%;margin-left: auto; margin-right: auto;"></center></div>';
 
 	    //append the new page onto the end of the body
-	    $('#page_body').append('<div data-role="page" id="' + page_id + '" data-add-back-btn="true"><div data-role="header"><h1>imgur Viewer</h1></div><div data-role="content">' + string + '</div></div>');
+	    $('#page_body').append('<div data-role="page" id="' + page_id + '" data-add-back-btn="true" data-iscroll="enable"><div data-role="header"><h1>imgur Viewer</h1></div><div data-role="content">' + string + '</div></div>');
 
 	    //initialize the new page 
 	    $.mobile.initializePage();
@@ -64,22 +73,26 @@
     /* Prevent copy paste for all elements except text fields */
     *  { -webkit-user-select:none; -webkit-tap-highlight-color:rgba(255, 255, 255, 0); }
     input, textarea  { -webkit-user-select:text; }
+    .scrollable {
+    	overflow:scroll;
+    }
     </style>
-    <!--script type="text/javascript" charset="utf-8" src="http://localhost:58888/_appMobi/appmobi.js"></script> 
+    <script type="text/javascript" charset="utf-8" src="http://localhost:58888/_appMobi/appmobi.js"></script> 
 	<script type="text/javascript" charset="utf-8" src="http://localhost:58888/_appMobi/xhr.js"></script>
 	<script type="text/javascript">
 	/* This function runs once the page is loaded, but appMobi is not yet active */
 	var init = function(){
-
+		AppMobi.device.setRotateOrientation("portrait");
+        AppMobi.device.setAutoRotate(false);
 	};
 	window.addEventListener("load",init,false);  
 
 	/* This code prevents users from dragging the page */
-	var preventDefaultScroll = function(event) {
+	/* var preventDefaultScroll = function(event) {
 	    event.preventDefault();
 	    window.scroll(0,0);
 	    return false;
-	};
+	}; */
 	document.addEventListener('touchmove', preventDefaultScroll, false);
 
 	/* This code is used to run as soon as appMobi activates */
@@ -91,18 +104,19 @@
 		AppMobi.device.hideSplashScreen();	
 	};
 	document.addEventListener("appMobi.device.ready",onDeviceReady,false);    
-	</script-->
+	</script>
 </head>
 <body id="page_body">
-<div data-role="page" id="viewer">
+<div data-role="page" id="viewer" data-iscroll="enable">
 	<div data-role="header">
 		<h1>imgur Viewer</h1>
 	</div><!-- /header -->
 
 	<div data-role="content">
-		<ul data-role="listview" id="ulcontain">
-		</ul>
-		<br />
+		<div data-iscroll="scroller">
+			<ul data-role="listview" id="ulcontain">
+			</ul>
+		</div>
 	</div><!-- /content -->
 
 	<!--div data-role="footer">

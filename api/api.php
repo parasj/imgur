@@ -63,12 +63,18 @@ foreach ($links as $i => $html_element) {
 
 }
 
-print_r(array_values($imgur));
-$json_imgur = json_encode(array_values($imgur));
+//print_r(array_values($imgur));
+foreach (array_values($imgur) as $i => $value) {
+	$ret[$i+1] = $value;
+}
+//print_r($ret);
+//unset($ret[0]);
+print_r($ret);
+$json_imgur = json_encode($ret);
 
 $filename = "cache";
 
-if (isset($imgur[5])) {
+if (isset($ret[5])) {
 	file_put_contents($filename, $json_imgur);
 }
 
