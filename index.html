@@ -1,9 +1,9 @@
 <!DOCTYPE html><!--HTML5 doctype-->
 <html>
 <head>
-	<title>Tummy Tapper</title>
+	<title>imgur viewer</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
-	<link rel="stylesheet" href="jqm.css" />
+	<link rel="stylesheet" href="jqm/jqm.css" />
 	<style type="text/css">
     /* Prevent copy paste for all elements except text fields */
     *  { -webkit-user-select:none; -webkit-tap-highlight-color:rgba(255, 255, 255, 0); }
@@ -29,7 +29,7 @@
 	/* This code is used to run as soon as appMobi activates */
 	var onDeviceReady=function(){
 	    //Size the display to 768px by 1024px
-	    AppMobi.display.useViewport(768,1024);
+	    //AppMobi.display.useViewport(768,1024);
 		
 		//hide splash screen
 		AppMobi.device.hideSplashScreen();	
@@ -47,7 +47,7 @@
 		<ul data-role="listview" data-inset="true" data-theme="d">
 			<li>Help Tum Tum go around the world on Facebook - pet Tum Tum's tummy!<br /><br />He will ride on to your wall to get your friends to rub his tummy too!</li>
 		</ul>
-		<img src="tumtum.png" id="tumtum" width="90%">
+		<button id="tumtum">Pet Me!</button>
 	</div><!-- /content -->
 
 	<!--div data-role="footer">
@@ -55,8 +55,8 @@
 	</div>--<!-- /footer -->
 </div><!-- /page -->
 <div id='fb-root'></div>
-<script src="jq.js"></script>
-<script src="jqm.js"></script>
+<script src="jqm/jq.js"></script>
+<script src="jqm/jqm.js"></script>
 <script src='http://connect.facebook.net/en_US/all.js'></script>
 <script> 
       FB.init({appId: "300497353326009", status: true, cookie: true});
